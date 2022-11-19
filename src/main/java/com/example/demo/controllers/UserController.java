@@ -1,7 +1,10 @@
-package com.example.demo.domains.user;
+package com.example.demo.controllers;
 
-import com.example.demo.domains.user.dtos.SaveUserDTO;
-import com.example.demo.domains.user.dtos.UserDTO;
+import com.example.demo.models.User;
+import com.example.demo.converters.UserConverter;
+import com.example.demo.services.UserService;
+import com.example.demo.dtos.SaveUserDTO;
+import com.example.demo.dtos.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,9 +30,6 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> saveUser(@RequestBody SaveUserDTO payload){
-
-        log.debug("Payload {}",payload);
-
         User user = userService.save(payload);
 
         return new ResponseEntity<UserDTO>(UserConverter.toDTO(user),HttpStatus.CREATED);

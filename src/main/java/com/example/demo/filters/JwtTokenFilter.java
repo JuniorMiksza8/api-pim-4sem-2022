@@ -1,6 +1,6 @@
 package com.example.demo.filters;
 
-import com.example.demo.domains.user.User;
+import com.example.demo.models.User;
 import com.example.demo.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,9 +1,9 @@
-package com.example.demo.domains.user;
+package com.example.demo.services;
 
 import com.example.demo.configs.WebSecurity;
-import com.example.demo.domains.user.User;
-import com.example.demo.domains.user.dtos.SaveUserDTO;
-import com.example.demo.domains.user.UserRepository;
+import com.example.demo.models.User;
+import com.example.demo.dtos.SaveUserDTO;
+import com.example.demo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

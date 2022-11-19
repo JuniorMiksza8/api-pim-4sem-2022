@@ -1,7 +1,7 @@
 package com.example.demo.configs;
 
 import com.example.demo.filters.JwtTokenFilter;
-import com.example.demo.domains.user.UserDetailsServiceImpl;
+import com.example.demo.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +33,11 @@ public class WebSecurity {
         http
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers(HttpMethod.POST,"/user").permitAll()
-                        .antMatchers(HttpMethod.GET,"/user").authenticated()
+                        .antMatchers(HttpMethod.GET,"/user").permitAll()
                         .antMatchers(HttpMethod.POST,"/auth/sign-in").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/car").authenticated()
+                        .antMatchers("/address").authenticated()
+                        .anyRequest().denyAll()
                 )
                 .exceptionHandling()
                 .authenticationEntryPoint(

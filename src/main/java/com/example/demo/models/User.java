@@ -1,4 +1,4 @@
-package com.example.demo.domains.user;
+package com.example.demo.models;
 
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -31,6 +33,39 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column()
+    private String cpf;
+
+    @Column()
+    private LocalDateTime birthDate;
+
+    @Column()
+    private String telephone;
+
+    @Column()
+    private String instagram;
+
+    @Column()
+    private String twitter;
+
+    @Column()
+    private String github;
+
+    @Column()
+    private String youtube;
+
+    @Column()
+    private String facebook;
+
+    @Column()
+    private String linkedin;
+
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Car> cars = new ArrayList<>();
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -38,6 +73,7 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @Column()
     private LocalDateTime updatedAt;
+
 
     @Override
     public boolean equals(Object o) {

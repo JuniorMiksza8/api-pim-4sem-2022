@@ -1,4 +1,4 @@
-package com.example.demo.domains.auth.dtos;
+package com.example.demo.dtos;
 
 import com.sun.istack.NotNull;
 import lombok.Data;

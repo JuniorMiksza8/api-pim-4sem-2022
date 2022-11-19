@@ -1,6 +1,7 @@
-package com.example.demo.domains.user;
+package com.example.demo.converters;
 
-import com.example.demo.domains.user.dtos.UserDTO;
+import com.example.demo.models.User;
+import com.example.demo.dtos.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
