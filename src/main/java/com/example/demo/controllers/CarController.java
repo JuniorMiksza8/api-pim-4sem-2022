@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -30,6 +31,16 @@ public class CarController {
         List<Car> data = service.list(user.getId());
 
         return ResponseEntity.ok(data);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findByID(@PathVariable("id") Long id){
+
+        Optional<Car> data = service.findByID(id);
+
+        if(data.isEmpty()) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(data.get());
     }
 
     @PostMapping

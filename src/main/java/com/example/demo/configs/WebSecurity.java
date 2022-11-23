@@ -15,8 +15,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -33,8 +38,12 @@ public class WebSecurity {
         http
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers(HttpMethod.POST,"/user").permitAll()
-                        .antMatchers(HttpMethod.GET,"/user").permitAll()
+                        .antMatchers(HttpMethod.GET,"/user").authenticated()
+                        .antMatchers(HttpMethod.PUT,"/user/socials").authenticated()
+                        .antMatchers(HttpMethod.PUT,"/user").authenticated()
+                        .antMatchers(HttpMethod.GET,"/user/detail").authenticated()
                         .antMatchers(HttpMethod.POST,"/auth/sign-in").permitAll()
+                        .antMatchers("/car/*").authenticated()
                         .antMatchers("/car").authenticated()
                         .antMatchers("/address").authenticated()
                         .anyRequest().denyAll()
@@ -48,13 +57,43 @@ public class WebSecurity {
                             );
                         }
                 ).and()
-                .cors().disable()
+                .cors().and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
 
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    protected CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+
+        // NOTE: setAllowCredentials(true) is important,
+        // otherwise, the value of the 'Access-Control-Allow-Origin' header in the response
+        // must not be the wildcard '*' when the request's credentials mode is 'include'.
+        configuration.setAllowCredentials(false);
+
+        // NOTE: setAllowedHeaders is important!
+        // Without it, OPTIONS preflight request will fail with 403 Invalid CORS request
+        configuration.setAllowedHeaders(Arrays.asList(
+                "Authorization",
+                "Accept",
+                "Cache-Control",
+                "Content-Type",
+                "Origin",
+                "ajax", // <-- This is needed for jQuery's ajax request.
+                "x-csrf-token",
+                "x-requested-with"
+        ));
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean

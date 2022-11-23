@@ -15,8 +15,27 @@ public class UserDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 7100179587555243994L;
 
-    @NotNull
+    private Long id;
+
     private String email;
+
+    private String cpf;
+
+    private LocalDateTime birthDate;
+
+    private String telephone;
+
+    private String instagram;
+
+    private String twitter;
+
+    private String github;
+
+    private String youtube;
+
+    private String facebook;
+
+    private String linkedin;
 
     private LocalDateTime createdAt;
 
